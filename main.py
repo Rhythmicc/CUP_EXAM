@@ -99,6 +99,7 @@ if __name__ == '__main__':
     xls = xlrd.open_workbook('content.xls')
     sheet = xls.sheet_by_index(0)
     init(sheet)
+    keys = ['课程名', '上课老师', '主修班级']
     print('帮助:')
     print('    通过使用如下固定格式的与或表达式进行考试信息搜索：')
     print('                课程 & 教师 & 班级')
@@ -114,45 +115,17 @@ if __name__ == '__main__':
         res_set = set()
         flag = False
         for i in range(len(exp)):
-            if i == 0:
+            if i < 3:
                 aim = exp[i].strip()
                 if not aim:
                     continue
-                res = fm(aim, data['课程名'].keys())
+                res = fm(aim, data[keys[i]].keys())
                 if not res:
-                    res = process.extract(aim, data['课程名'].keys(), limit=3)
-                for mth in res:
-                    if mth[1]:
-                        res_set = res_set.union(data['课程名'][mth[0]])
-                if res_set:
-                    flag = True
-            elif i == 1:
-                aim = exp[i].strip()
-                if not aim:
-                    continue
-                res = fm(aim, data['上课老师'].keys())
-                if not res:
-                    res = process.extract(aim, data['上课老师'].keys(), limit=3)
+                    res = process.extract(aim, data[keys[i]].keys(), limit=3)
                 ts = set()
                 for mth in res:
                     if mth[1]:
-                        ts = ts.union(data['上课老师'][mth[0]])
-                if flag:
-                    res_set = res_set.intersection(ts)
-                else:
-                    res_set = res_set.union(ts)
-                    flag = True
-            elif i == 2:
-                aim = exp[i].strip()
-                if not aim:
-                    continue
-                res = fm(aim, data['主修班级'].keys())
-                if not res:
-                    res = process.extract(aim, data['主修班级'].keys(), limit=3)
-                ts = set()
-                for mth in res:
-                    if mth[1]:
-                        ts = ts.union(data['主修班级'][mth[0]])
+                        ts = ts.union(data[keys[i]][mth[0]])
                 if flag:
                     res_set = res_set.intersection(ts)
                 else:
@@ -160,7 +133,7 @@ if __name__ == '__main__':
                     flag = True
             else:
                 break
-        print('查询结果:'+'' if flag else 'None')
+        print('查询结果:' + '' if flag else 'None')
         for line_num in res_set:
             line = sheet.row_values(line_num)
             print('-' * 50)
@@ -170,10 +143,10 @@ if __name__ == '__main__':
             linkstr = ''
             for i in range(len(cls)):
                 linkstr += cls[i]
-                if i+1 == len(cls):
+                if i + 1 == len(cls):
                     break
-                elif (i+1) % 5 == 0:
-                    linkstr += '\n'+' '*9
+                elif (i + 1) % 5 == 0:
+                    linkstr += '\n' + ' ' * 9
                 else:
                     linkstr += ','
             print('主修班级：' + linkstr)
