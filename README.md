@@ -2,8 +2,9 @@
 
 ## Environment dependence:  
 `
-pip3 install xlrd  
-pip3 install fuzzywuzzy  
+pip3 install xlrd
+
+pip3 install fuzzywuzzy
 `
 
 ## usage:  
