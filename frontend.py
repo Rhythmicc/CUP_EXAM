@@ -25,7 +25,7 @@ def deal():
     new_win = Tk()
     new_win.title('查询结果')
     txt = Text(new_win, width=100, height=30)
-    srco = Scrollbar()
+    srco = Scrollbar(new_win)
     srco.pack(side=RIGHT, fill=Y)
     txt.pack(side=LEFT, fill=Y)
     srco.config(command=txt.yview)
