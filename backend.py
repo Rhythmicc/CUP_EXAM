@@ -95,6 +95,8 @@ def fm(string, ls):
 
 
 def search(exp):
+    if not pre_check():
+        return None
     keys = ['课程名', '上课老师', '主修班级']
     res_set = set()
     flag = False
