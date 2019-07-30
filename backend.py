@@ -45,12 +45,10 @@ def getNewXls(url):
         if a.endswith('xls'):
             cnt = countPoint(a)
             url = '/'.join(url.split('/')[:-cnt]) + a[cnt:]
-            print('get file path:' + url)
             break
     content = requests.get(url, headers).content
     with open('content.xls', 'wb') as f:
         f.write(content)
-    print('download xls succeed!')
     return True
 
 
