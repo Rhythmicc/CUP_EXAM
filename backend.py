@@ -13,6 +13,7 @@ data = {'课程名': {}, '上课老师': {}, '主修班级': {}}
 name_col = 0
 teacher_col = 0
 sc_col = 0
+sheet = None
 
 
 def get_one_page(url, headers):
@@ -35,11 +36,10 @@ def countPoint(UrlPart):
     return cnt
 
 
-def getNewXls():
-    url = input('输入考试通知网址:').strip()
+def getNewXls(url):
     html = get_one_page(url, headers=headers)
     if not html:
-        exit('网页获取失败')
+        return False
     als = re.findall('<a.*?href="(.*?)"', html, re.S)
     for a in als:
         if a.endswith('xls'):
@@ -51,10 +51,13 @@ def getNewXls():
     with open('content.xls', 'wb') as f:
         f.write(content)
     print('download xls succeed!')
+    return True
 
 
-def init(sheet):
-    global name_col, teacher_col, sc_col
+def init():
+    xls = xlrd.open_workbook('content.xls')
+    global name_col, teacher_col, sc_col, sheet
+    sheet = xls.sheet_by_index(0)
     keys = sheet.row_values(0)
     for i in range(len(keys)):
         if keys[i] == '课程名':
@@ -93,63 +96,51 @@ def fm(string, ls):
     return res
 
 
-if __name__ == '__main__':
-    if not os.path.exists('content.xls'):
-        getNewXls()
-    xls = xlrd.open_workbook('content.xls')
-    sheet = xls.sheet_by_index(0)
-    init(sheet)
+def search(exp):
     keys = ['课程名', '上课老师', '主修班级']
-    print('帮助:')
-    print('    通过使用如下固定格式的与或表达式进行考试信息搜索：')
-    print('                课程 & 教师 & 班级')
-    print('    如果条件不足三个，则默认表达式后置条件缺省。')
-    print('    ps1: xx&yy，为查找课程名为xx且授课教师为yy的信息。')
-    print('    ps2: xx&&yy，为查找课程名为xx且班级为yy的信息。')
-    print('    ps3: xx&yy&zz，为按课程、教师和班级三种条件查找。')
-    while True:
-        print('-' * 50)
-        exp = input('输入搜索表达式:').split('&')
-        if not ''.join(exp):
-            break
-        res_set = set()
-        flag = False
-        for i in range(len(exp)):
-            if i < 3:
-                aim = exp[i].strip()
-                if not aim:
-                    continue
-                res = fm(aim, data[keys[i]].keys())
-                if not res:
-                    res = process.extract(aim, data[keys[i]].keys(), limit=3)
-                ts = set()
-                for mth in res:
-                    if mth[1]:
-                        ts = ts.union(data[keys[i]][mth[0]])
-                if flag:
-                    res_set = res_set.intersection(ts)
-                else:
-                    res_set = res_set.union(ts)
-                    flag = True
+    res_set = set()
+    flag = False
+    for i in range(len(exp)):
+        if i < 3:
+            aim = exp[i].strip()
+            if not aim:
+                continue
+            res = fm(aim, data[keys[i]].keys())
+            if not res:
+                res = process.extract(aim, data[keys[i]].keys(), limit=3)
+            ts = set()
+            for mth in res:
+                if mth[1]:
+                    ts = ts.union(data[keys[i]][mth[0]])
+            if flag:
+                res_set = res_set.intersection(ts)
             else:
+                res_set = res_set.union(ts)
+                flag = True
+        else:
+            break
+    res = ''
+    for line_num in res_set:
+        line = sheet.row_values(line_num)
+        res += '-' * 50 + '\n'
+        res += '课程名称：' + line[name_col] + '\n'
+        res += '授课教师：' + line[teacher_col].replace('\n', ',') + '\n'
+        cls = line[sc_col].split(',')
+        linkstr = ''
+        for i in range(len(cls)):
+            linkstr += cls[i]
+            if i + 1 == len(cls):
                 break
-        print('查询结果:' + '' if flag else 'None')
-        for line_num in res_set:
-            line = sheet.row_values(line_num)
-            print('-' * 50)
-            print('课程名称：' + line[name_col])
-            print('授课教师：' + line[teacher_col].replace('\n', ','))
-            cls = line[sc_col].split(',')
-            linkstr = ''
-            for i in range(len(cls)):
-                linkstr += cls[i]
-                if i + 1 == len(cls):
-                    break
-                elif (i + 1) % 5 == 0:
-                    linkstr += '\n' + ' ' * 9
-                else:
-                    linkstr += ','
-            print('主修班级：' + linkstr)
-            day = "%04d年%02d月%02d日" % xldate_as_tuple(line[4], 0)[:3]
-            print('考试时间：' + day + '(周%s) ' % line[2] + line[5])
-            print('考试地点：' + line[-1].replace('\n', ','))
+            elif (i + 1) % 5 == 0:
+                linkstr += '\n' + ' ' * 9
+            else:
+                linkstr += ','
+        res += '主修班级：' + linkstr + '\n'
+        day = "%04d年%02d月%02d日" % xldate_as_tuple(line[4], 0)[:3]
+        res += '考试时间：' + day + '(周%s) ' % line[2] + line[5] + '\n'
+        res += '考试地点：' + line[-1].replace('\n', ',') + '\n'
+    return res
+
+
+def pre_check():
+    return os.path.exists('content.xls')
