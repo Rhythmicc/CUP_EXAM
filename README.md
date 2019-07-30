@@ -1,12 +1,14 @@
 # CUP_EXAM  
 
 ## Environment dependence:  
+`pip3 install requests`
+
 `
 pip3 install xlrd
 `
 
 `
-pip3 instal fuzzywuzzy
+pip3 install fuzzywuzzy
 `
 ## usage:  
 `
