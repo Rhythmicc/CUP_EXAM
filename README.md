@@ -12,7 +12,7 @@ pip3 install fuzzywuzzy
 `
 ## usage:  
 `
-python3 main.py
+python3 frontend.py
 `
 
 ## computational results:  
