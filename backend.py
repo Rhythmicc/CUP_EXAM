@@ -4,7 +4,6 @@ import re
 import os
 import xlrd
 from xlrd import xldate_as_tuple
-from fuzzywuzzy import process
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.2 Safari/605.1.15',
@@ -105,18 +104,20 @@ def search(exp):
     keys = ['课程名', '上课老师', '主修班级']
     res_set = set()
     flag = False
+    exp = list(set(exp))
     for i in range(len(exp)):
         if i < 3:
             aim = exp[i].strip()
             if not aim:
                 continue
-            res = fm(aim, data[keys[i]].keys())
-            if not res:
-                res = process.extract(aim, data[keys[i]].keys(), limit=3)
+            loop = 3
             ts = set()
-            for mth in res:
-                if mth[1]:
-                    ts = ts.union(data[keys[i]][mth[0]])
+            while loop:
+                loop -= 1
+                res = fm(aim, data[keys[loop]].keys())
+                for mth in res:
+                    if mth[1]:
+                        ts = ts.union(data[keys[loop]][mth[0]])
             if flag:
                 res_set = res_set.intersection(ts)
             else:

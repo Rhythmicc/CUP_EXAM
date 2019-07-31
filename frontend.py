@@ -4,15 +4,12 @@ from tkinter.messagebox import *
 import backend
 win = Tk()
 win.title('CUP考试安排查询')
-win.geometry("500x200")
+win.geometry("400x150")
 
 ss = '帮助:\n' \
-     '    通过使用如下固定格式的与或表达式进行考试信息搜索：\n' \
-     '                课程 & 教师 & 班级\n' \
-     '    如果条件不足三个，则默认表达式后置条件缺省。\n' \
-     '    ps1: xx&yy，为查找课程名为xx且授课教师为yy的信息。\n' \
-     '    ps2: xx&&yy，为查找课程名为xx且班级为yy的信息。\n' \
-     '    ps3: xx&yy&zz，为按课程、教师和班级三种条件查找。 '
+     '    通过使用如下固定格式的表达式进行考试信息搜索：\n' \
+     '          [课程] [教师] [班级]\n' \
+     '    []内容可缺省且顺序可变, 但至少输入一个条件。\n'
 
 flag = True
 
@@ -21,7 +18,7 @@ def deal():
     exp = ipt.get()
     if not exp:
         return
-    res = backend.search(exp.split('&'))
+    res = backend.search(exp.split())
     new_win = Toplevel()
     new_win.title('查询结果')
     txt = Text(new_win, width=100, height=30)
@@ -59,7 +56,7 @@ lb = Label(win, text=ss, justify='left')
 lb.pack()
 
 pre_text = Variable()
-ipt = Entry(win, width=50, textvariable=pre_text)
+ipt = Entry(win, width=40, textvariable=pre_text)
 ipt.bind('<Key>', clear_input)
 ipt.pack()
 pre_text.set('输入搜索表达式:')
