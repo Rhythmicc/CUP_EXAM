@@ -16,9 +16,7 @@ python3 frontend.py
 `
 
 ## Computational results:  
-### new version
-![input url](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/2.png)  
-![dowload succeed](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/3.png)  
+### new version  
 simple example  
 ![simple example](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/4.png)  
 
