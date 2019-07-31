@@ -40,15 +40,19 @@ def getNewXls(url):
     html = get_one_page(url, headers=headers)
     if not html:
         return False
-    als = re.findall('<a.*?href="(.*?)"', html, re.S)
+    title = re.findall('<h3>(.*?)</h3>', html, re.S)[0]
+    als = re.findall('<a.*?href="(.*?)">.*?>(.*?)<', html, re.S)
     for a in als:
-        if a.endswith('xls'):
-            cnt = countPoint(a)
-            url = '/'.join(url.split('/')[:-cnt]) + a[cnt:]
+        if a[0].endswith('xls'):
+            cnt = countPoint(a[0])
+            url = '/'.join(url.split('/')[:-cnt]) + a[0][cnt:]
             break
     content = requests.get(url, headers).content
     with open('content.xls', 'wb') as f:
         f.write(content)
+    with open('.last_title.txt', 'w') as f:
+        f.write(title+'\n')
+        f.write(a[1]+'\n')
     return True
 
 

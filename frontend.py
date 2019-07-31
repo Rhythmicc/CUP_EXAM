@@ -64,37 +64,33 @@ ipt.bind('<Key>', clear_input)
 ipt.pack()
 pre_text.set('输入搜索表达式:')
 
-op = LabelFrame(win, text='操作', width=100)
-op.pack()
+bt = Button(win, text='查询', command=deal)
+bt.pack()
 
-bt = Button(op, text='查询', command=deal)
-bt.grid(row=0, column=1)
 
-upd = Button(op, text='更换xls文件', command=update)
-upd.grid(row=0, column=0)
-
-while not backend.pre_check():
-    update()
+if not backend.pre_check():
+    with open('.last_title.txt', 'w') as f:
+        f.write('\n\n')
+    flag = True
 res = backend.new_note_check()
 if res == -1:
-    showerror('检测更新失败', '设备未联网')
+    showerror('检测更新失败', '设备未联网'+('且无可用考试安排文件，程序自动退出。' if flag else ''))
 elif res:
     if res[-1]:
-        ask = askyesno('发现新的考试安排', '发现新的考试安排:\n    '+res[1]+'\n\n是否更新考试安排文件?')
+        if flag:
+            ask = True
+        else:
+            ask = askyesno('发现新的考试安排', '发现新的考试安排:\n    '+res[1]+'\n\n是否更新考试安排文件?')
         if ask:
-            update(res[0])
-            with open('.last_title.txt', 'w') as f:
-                f.write(res[1]+'\n')
+            if flag:
+                update(realurl=res[0])
+            else:
+                update(url=res[0])
         else:
             backend.init()
     else:
         update('', res[0])
         showinfo('自动更新', '发现考试安排变更，已自动更新。')
-        with open('.last_title.txt', 'r') as f:
-            title = f.readlines()[0].strip()
-        with open('.last_title.txt', 'w') as f:
-            f.write(title+'\n')
-            f.write(res[1]+'\n')
 else:
     backend.init()
 win.mainloop()
