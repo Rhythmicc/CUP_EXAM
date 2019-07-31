@@ -150,7 +150,9 @@ def pre_check():
 
 def new_note_check():
     with open('.last_title.txt', 'r') as f:
-        title = f.read().strip()
+        lines = f.readlines()
+        title = lines[0].strip()
+        filename = lines[1].strip()
     html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/index.htm', headers)
     if not html:
         return -1
@@ -160,9 +162,14 @@ def new_note_check():
         if content:
             addr, new_title = content[0]
             if new_title == title:
+                html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/'+addr, headers)
+                aim_li = re.findall('<li.*?>(.*?)</li>', html, re.S)[-1]
+                new_filename = re.findall('<font.*?>(.*?)</font>', aim_li, re.S)[0]
+                if new_filename != filename:
+                    return ['http://www.cup.edu.cn/jwc/Ttrends/'+addr, new_filename, 0]
                 return 0
             if new_title.endswith('考试安排'):
-                return ['http://www.cup.edu.cn/jwc/Ttrends/'+addr, new_title]
+                return ['http://www.cup.edu.cn/jwc/Ttrends/'+addr, new_title, 1]
 
 
 if __name__ == '__main__':
