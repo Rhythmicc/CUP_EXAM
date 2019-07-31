@@ -22,7 +22,7 @@ def deal():
     if not exp:
         return
     res = backend.search(exp.split('&'))
-    new_win = Tk()
+    new_win = Toplevel()
     new_win.title('查询结果')
     txt = Text(new_win, width=100, height=30)
     srco = Scrollbar(new_win)
