@@ -54,7 +54,7 @@ def getNewXls(url):
 
 def init():
     xls = xlrd.open_workbook('content.xls')
-    global name_col, teacher_col, sc_col, sheet
+    global name_col, teacher_col, sc_col, sheet, data
     sheet = xls.sheet_by_index(0)
     keys = sheet.row_values(0)
     for i in range(len(keys)):
@@ -67,6 +67,7 @@ def init():
     if not name_col or not teacher_col or not sc_col:
         exit('Unknown xls layout')
     ls = sheet.col_values(name_col)
+    data = {'课程名': {}, '上课老师': {}, '主修班级': {}}
     for i in range(1, len(ls)):
         if ls[i] not in data['课程名']:
             data['课程名'][ls[i]] = set()
@@ -139,6 +140,7 @@ def search(exp):
         day = "%04d年%02d月%02d日" % xldate_as_tuple(line[4], 0)[:3]
         res += '考试时间：' + day + '(周%s) ' % line[2] + line[5] + '\n'
         res += '考试地点：' + line[-1].replace('\n', ',') + '\n'
+    del res_set
     return res
 
 

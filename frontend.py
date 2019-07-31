@@ -34,6 +34,15 @@ def deal():
     new_win.mainloop()
 
 
+def update():
+    ss = simpledialog.askstring('下载考试通知文件', '请输入考试安排通知网址')
+    if backend.getNewXls(ss):
+        showinfo('下载成功', 'XLS考试通知文件下载成功!')
+        backend.init()
+    else:
+        showerror('下载失败', '未能成功下载XLS文件')
+
+
 def clear_input(event):
     global flag
     if flag:
@@ -50,14 +59,16 @@ ipt.bind('<Key>', clear_input)
 ipt.pack()
 pre_text.set('输入搜索表达式:')
 
-bt = Button(win, text='查询', command=deal)
-bt.pack()
+op = LabelFrame(win, text='操作', width=100)
+op.pack()
+
+bt = Button(op, text='查询', command=deal)
+bt.grid(row=0, column=1)
+
+upd = Button(op, text='更换xls文件', command=update)
+upd.grid(row=0, column=0)
 
 while not backend.pre_check():
-    ss = simpledialog.askstring('下载考试通知文件', '请输入考试安排通知网址')
-    if backend.getNewXls(ss):
-        showinfo('下载成功', 'XLS考试通知文件下载成功!')
-    else:
-        showerror('下载失败', '请检查网络')
+    update()
 backend.init()
 win.mainloop()
