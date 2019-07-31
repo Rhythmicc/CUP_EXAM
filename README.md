@@ -17,6 +17,8 @@ python3 frontend.py
 
 ## Computational results:  
 ### new version  
+new feature  
+![5.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/5.png)
 simple example  
 ![simple example](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/4.png)  
 
