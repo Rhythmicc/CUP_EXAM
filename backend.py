@@ -150,7 +150,7 @@ def pre_check():
 
 def new_note_check():
     with open('.last_title.txt', 'r') as f:
-        title = f.read()
+        title = f.read().strip()
     html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/index.htm', headers)
     if not html:
         return -1
