@@ -34,9 +34,10 @@ def deal():
     new_win.mainloop()
 
 
-def update():
-    ss = simpledialog.askstring('下载考试通知文件', '请输入考试安排通知网址')
-    if backend.getNewXls(ss):
+def update(url=None):
+    if not url:
+        url = simpledialog.askstring('下载考试通知文件', '请输入考试安排通知网址')
+    if backend.getNewXls(url):
         showinfo('下载成功', 'XLS考试通知文件下载成功!')
         backend.init()
     else:
@@ -70,5 +71,17 @@ upd.grid(row=0, column=0)
 
 while not backend.pre_check():
     update()
-backend.init()
+res = backend.new_note_check()
+if res == -1:
+    showerror('检测更新失败', '设备未联网')
+elif res:
+    ask = askyesno('发现新的考试安排', '发现新的考试安排:\n    '+res[1]+'\n\n是否更新考试安排文件?')
+    if ask:
+        update(res[0])
+        with open('.last_title.txt', 'w') as f:
+            f.write(res[1]+'\n')
+    else:
+        backend.init()
+else:
+    backend.init()
 win.mainloop()

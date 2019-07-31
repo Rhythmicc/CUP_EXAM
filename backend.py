@@ -146,3 +146,24 @@ def search(exp):
 
 def pre_check():
     return os.path.exists('content.xls')
+
+
+def new_note_check():
+    with open('.last_title.txt', 'r') as f:
+        title = f.read()
+    html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/index.htm', headers)
+    if not html:
+        return -1
+    ls = re.findall('<li>(.*?)</li>', html, re.S)
+    for i in ls:
+        content = re.findall('<a.*?href="(.*?)">(.*?)</a>', i, re.S)
+        if content:
+            addr, new_title = content[0]
+            if new_title == title:
+                return 0
+            if new_title.endswith('考试安排'):
+                return ['http://www.cup.edu.cn/jwc/Ttrends/'+addr, new_title]
+
+
+if __name__ == '__main__':
+    print(new_note_check())
