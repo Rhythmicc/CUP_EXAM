@@ -7,17 +7,17 @@
 pip3 install xlrd
 `
 
-`
-pip3 install fuzzywuzzy
-`
 ## Usage:  
 `
 python3 frontend.py
 `
 
 ## Computational results:  
-### New version 2.1
-New feature: The program automatically maintains test scheduling files.  
+### New version 2.2
+Update: Canceling the search expression and dependency on the fuzzywuzzy library.  
+![8.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/8.png) 
+### Old version 2.1
+Update: The program automatically maintains test scheduling files.  
 ![7.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/7.png)  
 ### Old version 2.0  
 new feature  
