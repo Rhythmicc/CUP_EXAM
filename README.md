@@ -6,11 +6,6 @@
 `pip3 install pyinstaller`  
 ## Usage:  
 `python3 main.py`  
-or  
-`chmod 777 ./install.sh`  
-`./install.sh`   
-will pack an  executable program. Then execute:
-`./main`  
 ## Computational results:  
 ### New version 2.2
 Update: Simplify search expressions and remove the dependency on the fuzzywuzzy library.   
