@@ -1,20 +1,19 @@
 # CUP_EXAM  
 
 ## Environment dependence:  
-`pip3 install requests`
-
-`
-pip3 install xlrd
-`
-
+`pip3 install requests`  
+`pip3 install xlrd`  
+`pip3 install pyinstaller`  
 ## Usage:  
-`
-python3 frontend.py
-`
-
+`python3 main.py`  
+or  
+`chmod 777 ./install.sh`  
+`./install.sh`   
+will pack an  executable program. Then execute:
+`./main`  
 ## Computational results:  
 ### New version 2.2
-Update: Canceling the search expression and dependency on the fuzzywuzzy library.  
+Update: Simplify search expressions and remove the dependency on the fuzzywuzzy library.   
 ![8.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/8.png) 
 ### Old version 2.1
 Update: The program automatically maintains test scheduling files.  
