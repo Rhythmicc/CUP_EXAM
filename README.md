@@ -1,12 +1,9 @@
 # CUP_EXAM  
 
 ## Environment dependence:  
-`pip3 install requests`
-
-`
-pip3 install xlrd
-`
-
+`pip3 install requests`  
+`pip3 install xlrd`  
+`pip3 install pyinstaller`  
 ## Usage:  
 `python3 main.py`  
 or  
