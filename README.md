@@ -8,10 +8,12 @@ pip3 install xlrd
 `
 
 ## Usage:  
-`
-python3 frontend.py
-`
-
+`python3 main.py`  
+or  
+`chmod 777 ./install.sh`  
+`./install.sh`   
+will pack an  executable program. Then execute:
+`./main`  
 ## Computational results:  
 ### New version 2.2
 Update: Canceling the search expression and dependency on the fuzzywuzzy library.  
