@@ -18,7 +18,7 @@ def deal():
     exp = ipt.get()
     if not exp:
         return
-    res = backend.search(exp.split())
+    rres = backend.search(exp.split())
     new_win = Toplevel()
     new_win.title('查询结果')
     txt = Text(new_win, width=100, height=30)
@@ -27,7 +27,7 @@ def deal():
     txt.pack(side=LEFT, fill=Y)
     srco.config(command=txt.yview)
     txt.config(yscrollcommand=srco.set)
-    txt.insert(INSERT, res)
+    txt.insert(INSERT, rres)
     new_win.mainloop()
 
 
