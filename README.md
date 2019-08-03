@@ -11,10 +11,10 @@ pip3 install xlrd
 python3 frontend.py 
 ```
 
-- If your OS is Mac OS, then you can run :
+- If your OS is Mac OS or Linux, then you can run :
 
 - ```shell
-  ./install.sh
+  ./install(<mac>/<linux>).sh
   ```
 
   and it will create a command 'exam'. 
@@ -32,6 +32,8 @@ python3 frontend.py
 ### New Version 2.3
 
 - Update: add install.sh and start.sh to easy start.
+
+  ![9.png](./img/9.png)
 
 ### Old version 2.2
 - Update: Simplify search expressions and remove the dependency on the fuzzywuzzy library.   
