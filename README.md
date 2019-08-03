@@ -14,7 +14,7 @@ python3 frontend.py
 - If your OS is Mac OS or Linux, then you can run :
 
 - ```shell
-  ./install(<mac>/<linux>).sh
+  ./install(<mac,linux>).sh
   ```
 
   and it will create a command 'exam'. 
