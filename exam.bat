@@ -1,2 +1,2 @@
 @echo off
-%~dp0%\frontend.py
+start /b %~dp0%\frontend.py
