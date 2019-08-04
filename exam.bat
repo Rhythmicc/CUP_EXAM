@@ -1,2 +1,2 @@
 @echo off
-%cd%\frontend.py
+%~dp0%\frontend.py
