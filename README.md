@@ -20,7 +20,7 @@ python3 frontend.py
   else if your OS is Windows(Not XP), then you can run:
 
   ```shell
-.\install(win).bat
+  .\install(win).bat
   ```
   
   and it will create a command 'exam'. 
