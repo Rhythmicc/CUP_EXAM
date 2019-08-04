@@ -23,8 +23,14 @@ python3 frontend.py
   .\install(win).bat
   ```
   
-  and it will create a command 'exam'. 
+  (Your Windows may not have command 'setx'. So you can only set PATH manually.)
 
+  ```
+  系统环境变量->PATH->新建->名称:exam, 值: (文件夹位置)\exam.bat
+  ```
+  
+  And it will create a command 'exam'. 
+  
   After that, you can run:
   
   ```shell
