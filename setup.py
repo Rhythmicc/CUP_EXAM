@@ -2,9 +2,14 @@ import sys
 import os
 
 system = sys.platform
+base_dir = sys.path[0]
+
 if system.startswith('win'):
-    os.system('".\\install(win).bat"')
+    base_dir += '\\'
+    os.system('"%sinstall(win).bat"' % base_dir)
 elif system.startswith('linux'):
-    os.system('"./install(linux).sh"')
+    base_dir += '/'
+    os.system('"%sinstall(linux).sh"' % base_dir)
 else:
-    os.system('"./install(mac).sh"')
+    base_dir += '/'
+    os.system('"%sinstall(mac).sh"' % base_dir)
