@@ -2,9 +2,16 @@ import requests
 from requests.exceptions import RequestException
 import re
 import os
+import sys
 import xlrd
 from xlrd import xldate_as_tuple
 
+base_dir = sys.path[0]
+if sys.platform.startswith('win'):
+    dir_char = '\\'
+else:
+    dir_char = '/'
+base_dir += dir_char
 headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.2 Safari/605.1.15',
 }
@@ -41,22 +48,26 @@ def getNewXls(url):
         return False
     title = re.findall('<h3>(.*?)</h3>', html, re.S)[0]
     als = re.findall('<a.*?href="(.*?)">.*?>(.*?)<', html, re.S)
+    res = None
     for a in als:
         if a[0].endswith('xls'):
             cnt = countPoint(a[0])
             url = '/'.join(url.split('/')[:-cnt]) + a[0][cnt:]
+            res = a
             break
+    if not res:
+        return False
     content = requests.get(url, headers).content
-    with open('content.xls', 'wb') as f:
+    with open(base_dir+'content.xls', 'wb') as f:
         f.write(content)
-    with open('.last_title.txt', 'w') as f:
+    with open(base_dir+'.last_title.txt', 'w') as f:
         f.write(title+'\n')
-        f.write(a[1]+'\n')
+        f.write(res[1]+'\n')
     return True
 
 
 def init():
-    xls = xlrd.open_workbook('content.xls')
+    xls = xlrd.open_workbook(base_dir+'content.xls')
     global name_col, teacher_col, sc_col, sheet, data
     sheet = xls.sheet_by_index(0)
     keys = sheet.row_values(0)
@@ -150,11 +161,11 @@ def search(exp):
 
 
 def pre_check():
-    return os.path.exists('content.xls')
+    return os.path.exists(base_dir+'content.xls')
 
 
 def new_note_check():
-    with open('.last_title.txt', 'r') as f:
+    with open(base_dir+'.last_title.txt', 'r') as f:
         lines = f.readlines()
         title = lines[0].strip()
         filename = lines[1].strip()
@@ -179,3 +190,4 @@ def new_note_check():
 
 if __name__ == '__main__':
     print(new_note_check())
+    print(base_dir)
