@@ -1,2 +1,2 @@
 @echo off
-setx /m PATH %PATH%;%cd%\exam.bat
+setx /m PATH %PATH%;%~dp0%\exam.bat

@@ -8,36 +8,32 @@ pip3 install xlrd
 
 ## Usage:  
 ```shell
-python3 frontend.py 
+python3 frontend.py
 ```
 
-- If your OS is Mac OS or Linux, then you can run :
-
-- ```shell
-  ./install(<mac,linux>).sh
-  ```
-
-  else if your OS is Windows(Not XP), then you can run:
+- ### Install
 
   ```shell
-  .\install(win).bat
+  python3 setup.py
   ```
-  
+
+  And it will create a command 'exam'. 
+
+  After that, you can run:
+
+  ```
+  exam
+  ```
+
+  to use program~
+
+- ### Install issue 
   (Your Windows may not have command 'setx'. So you can only set PATH manually.)
 
   ```
   系统环境变量->PATH->新建->名称:exam, 值: (文件夹位置)\exam.bat
   ```
-  
-  And it will create a command 'exam'. 
-  
-  After that, you can run:
-  
-  ```shell
-  exam
-  ```
-  
-  to use program~
+
 
 ## Computational results:  
 
