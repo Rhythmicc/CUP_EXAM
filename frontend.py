@@ -51,6 +51,8 @@ def clear_input(event):
     if flag:
         ipt.delete(0, END)
         flag = False
+    elif event.char == '\r' or event.char == '\n':
+        deal()
 
 
 lb = Label(win, text=ss, justify='left')
@@ -61,6 +63,7 @@ ipt = Entry(win, width=40, textvariable=pre_text)
 ipt.bind('<Key>', clear_input)
 ipt.pack()
 pre_text.set('输入搜索表达式:')
+ipt.focus()
 
 bt = Button(win, text='查询', command=deal)
 bt.pack()
