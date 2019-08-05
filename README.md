@@ -14,7 +14,7 @@ python3 frontend.py
 - ### Install
 
   ```shell
-  python3 setup.py
+  python3 setup.py [--clean (which means remove install shell)]
   ```
 
   And it will create a command 'exam'. 
