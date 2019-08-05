@@ -8,6 +8,7 @@ if [ ! -f "$file" ]; then
   file="$HOME/.profile"
 fi
 
-sed '$a alias exam="$basedir/start.sh"' "$file"
+# shellcheck disable=SC2016
+echo alias exam=\""$basedir"/start.sh\" >> "$file"
 # shellcheck disable=SC1090
 source "$file"
