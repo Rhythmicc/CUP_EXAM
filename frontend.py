@@ -70,7 +70,7 @@ bt.pack()
 
 
 if not backend.pre_check():
-    with open('.last_title.txt', 'w') as f:
+    with open(backend.base_dir+'.last_title.txt', 'w') as f:
         f.write('\n\n')
     flag = True
 res = backend.new_note_check()
