@@ -37,7 +37,7 @@ python3 frontend.py
 
 ## Computational results:  
 
-### New version 2.4
+### New version 2.4.1
 
 - Update: Now you don't need update program by download ZIP manually.
 
