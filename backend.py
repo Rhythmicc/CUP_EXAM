@@ -203,9 +203,9 @@ def update_version():
     package = requests.get('https://github.com/Rhythmicc/CUP_EXAM/archive/master.zip', headers).content
     with open(base_dir+'exam.zip', 'wb') as f:
         f.write(package)
-    root_dir = dir_char.join(base_dir.split(dir_char)[:-2])
+    root_dir = dir_char.join(base_dir.split(dir_char)[:-2]) + dir_char
     os.system('unzip '+base_dir+'exam.zip -d '+root_dir)
-    os.system('python3 '+root_dir+'CUP_EXAM-master/setup.py')
+    os.system('python3 '+root_dir+'CUP_EXAM-master/setup.py --clean')
 
 
 if __name__ == '__main__':

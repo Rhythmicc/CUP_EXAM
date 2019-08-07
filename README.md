@@ -37,7 +37,7 @@ python3 frontend.py
 
 ## Computational results:  
 
-### New Version 2.3
+### New version 2.3
 
 - Update: add install.sh and start.sh to easy start.
 
