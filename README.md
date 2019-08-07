@@ -14,12 +14,10 @@ python3 frontend.py
 - ### 为脚本添加命令
 
   ```shell
-  python3 setup.py [--clean (which means remove additional shell)]
+  python3 setup.py [--clean (移除多余文件)] [--direct (不设置命令并移除多余文件)]
   ```
 
   如果添加命令成功，你可以运行下面的命令：
-
-  After that, you can run:
 
   ```
   exam
