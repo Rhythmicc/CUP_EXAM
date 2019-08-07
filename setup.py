@@ -27,14 +27,6 @@ if system.startswith('win'):
     base_dir += '\\'
     if sys.argv[1] != '--direct':
         os.system('%s"install(win).bat"' % base_dir)
-    if flag:
-        os.system('del %sinstall.sh' % base_dir)
-        os.system('del %s"install(win).bat"' % base_dir)
-        os.system('del %sstart.sh' % base_dir)
-        os.system('del %simg\\' % base_dir)
-        os.system('rmdir %simg' % base_dir)
-        os.system('del README.md')
-    exit(0)
 else:
     remove_command()
     base_dir += '/'
@@ -45,3 +37,5 @@ if flag:
     os.system('rm "%sexam.bat"' % base_dir)
     os.system('rm -rf img/')
     os.system('rm README.md')
+    os.system('rm .last_title.txt')
+    os.system('rm content.xls')
