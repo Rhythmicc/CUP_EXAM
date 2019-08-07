@@ -220,6 +220,7 @@ def update_version():
         os.system('rm '+base_dir+'exam.zip')
     else:
         os.system('del '+base_dir+'exam.zip')
+    exit('Update succeed! Restart exam to use it!')
 
 
 if __name__ == '__main__':
