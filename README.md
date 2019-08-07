@@ -52,7 +52,7 @@ python3 frontend.py
   通过命令行设置：
   
   ```shell
-setx /m PATH %PATH%;C:\Program Files (x86)\GnuWin32\bin
+  setx /m PATH %PATH%;C:\Program Files (x86)\GnuWin32\bin
   ```
 
   如果没有setx命令，则手动设置：
