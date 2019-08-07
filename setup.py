@@ -8,6 +8,8 @@ def remove_command():
         content = f.readlines()
     with open('tmp', 'w') as f:
         for line in content:
+            if not line.strip():
+                continue
             if line.split()[-1].startswith('exam='):
                 continue
             f.write(line + '\n')
