@@ -29,7 +29,7 @@ python3 frontend.py
   Windows系统可能没有命令”setx“，所以你需要手动设置环境变量。
 
   ```
-  系统环境变量->PATH->新建->名称:exam, 值: (文件夹位置)\exam.bat
+  系统环境变量->PATH->编辑->末尾添加项目的文件夹地址
   ```
 
 
