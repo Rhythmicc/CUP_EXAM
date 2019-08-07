@@ -204,9 +204,22 @@ def update_version():
     with open(base_dir+'exam.zip', 'wb') as f:
         f.write(package)
     root_dir = dir_char.join(base_dir.split(dir_char)[:-2]) + dir_char
-    os.system('unzip -o '+base_dir+'exam.zip -d '+root_dir)
-    os.system('python3 '+root_dir+'CUP_EXAM-master/setup.py --clean')
-    os.system('rm '+base_dir+'exam.zip')
+    while os.system('unzip -o '+base_dir+'exam.zip -d '+root_dir):
+        if dir_char == '\\':
+            package = requests.get('http://gnuwin32.sourceforge.net/downlinks/unzip.php', headers).content
+            with open('unzip.exe', 'wb') as f:
+                f.write(package)
+            os.system('unzip.exe')
+            exit('ERROR! No command "unzip", but do not worry about that, We have download it for you.')
+        else:
+            os.system('sudo apt-get install unzip')
+    status = os.system('python3 '+root_dir+'CUP_EXAM-master/setup.py --direct')
+    if status:
+        os.system('python ' + root_dir + 'CUP_EXAM-master/setup.py --direct')
+    if dir_char == '/':
+        os.system('rm '+base_dir+'exam.zip')
+    else:
+        os.system('del '+base_dir+'exam.zip')
 
 
 if __name__ == '__main__':

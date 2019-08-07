@@ -21,15 +21,19 @@ system = sys.platform
 base_dir = sys.path[0]
 flag = False
 if len(sys.argv) > 1:
-    flag = sys.argv[1] == '--clean'
+    flag = sys.argv[1] == '--clean' or sys.argv[1] == '--direct'
 
 if system.startswith('win'):
     base_dir += '\\'
-    os.system('"%sinstall(win).bat"' % base_dir)
+    if sys.argv[1] != '--direct':
+        os.system('%s"install(win).bat"' % base_dir)
     if flag:
-        os.system('del "%sinstall.sh"' % base_dir)
-        os.system('del "%sinstall(win).bat"' % base_dir)
-        os.system('del "%sstart.sh"' % base_dir)
+        os.system('del %sinstall.sh' % base_dir)
+        os.system('del %s"install(win).bat"' % base_dir)
+        os.system('del %sstart.sh' % base_dir)
+        os.system('del %simg\\' % base_dir)
+        os.system('rmdir %simg' % base_dir)
+        os.system('del README.md')
     exit(0)
 else:
     remove_command()
@@ -39,3 +43,5 @@ if flag:
     os.system('rm "%sinstall(win).bat"' % base_dir)
     os.system('rm "%sinstall.sh"' % base_dir)
     os.system('rm "%sexam.bat"' % base_dir)
+    os.system('rm -rf img/')
+    os.system('rm README.md')

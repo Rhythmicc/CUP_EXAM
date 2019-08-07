@@ -43,6 +43,22 @@ python3 frontend.py
 
   ![10.png](./img/10.png)
 
+- Issue:
+
+  If your Winodows do not have command 'unzip', you can setup it by click [unzip](http://gnuwin32.sourceforge.net/downlinks/unzip.php).
+
+  then:
+
+  ```shell
+  setx /m PATH %PATH%;C:\Program Files (x86)\GnuWin32\bin
+  ```
+
+  Or:
+
+  ```shell
+  系统环境变量->PATH->编辑->尾部添加：“C:\Program Files (x86)\GnuWin32\bin;”
+  ```
+
 ### Old version 2.3
 
 - Update: add install.sh and start.sh to easy start.
