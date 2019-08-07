@@ -58,16 +58,16 @@ def getNewXls(url):
     if not res:
         return False
     content = requests.get(url, headers).content
-    with open(base_dir+'content.xls', 'wb') as f:
+    with open(base_dir + 'content.xls', 'wb') as f:
         f.write(content)
-    with open(base_dir+'.last_title.txt', 'w') as f:
-        f.write(title+'\n')
-        f.write(res[1]+'\n')
+    with open(base_dir + '.last_title.txt', 'w') as f:
+        f.write(title + '\n')
+        f.write(res[1] + '\n')
     return True
 
 
 def init():
-    xls = xlrd.open_workbook(base_dir+'content.xls')
+    xls = xlrd.open_workbook(base_dir + 'content.xls')
     global name_col, teacher_col, sc_col, sheet, data
     sheet = xls.sheet_by_index(0)
     keys = sheet.row_values(0)
@@ -161,11 +161,11 @@ def search(exp):
 
 
 def pre_check():
-    return os.path.exists(base_dir+'content.xls')
+    return os.path.exists(base_dir + 'content.xls')
 
 
 def new_note_check():
-    with open(base_dir+'.last_title.txt', 'r') as f:
+    with open(base_dir + '.last_title.txt', 'r') as f:
         lines = f.readlines()
         title = lines[0].strip()
         filename = lines[1].strip()
@@ -178,16 +178,33 @@ def new_note_check():
         if content:
             addr, new_title = content[0]
             if new_title == title:
-                html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/'+addr, headers)
+                html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/' + addr, headers)
                 aim_li = re.findall('<li.*?>(.*?)</li>', html, re.S)[-1]
                 new_filename = re.findall('<font.*?>(.*?)</font>', aim_li, re.S)[0]
                 if new_filename != filename:
-                    return ['http://www.cup.edu.cn/jwc/Ttrends/'+addr, new_filename, 0]
+                    return ['http://www.cup.edu.cn/jwc/Ttrends/' + addr, new_filename, 0]
                 return 0
             if new_title.endswith('考试安排'):
-                return ['http://www.cup.edu.cn/jwc/Ttrends/'+addr, new_title, 1]
+                return ['http://www.cup.edu.cn/jwc/Ttrends/' + addr, new_title, 1]
+
+
+def new_version():
+    html = get_one_page('https://github.com/Rhythmicc/CUP_EXAM', headers)
+    version, content = re.findall('New version (.*?)</h3>.*?<p>(.*?)</p>', html, re.S)[0]
+    with open(base_dir+'.version', 'r') as f:
+        this_ver = f.read().strip()
+    if this_ver == version:
+        return None
+    else:
+        return [version, content]
+
+
+def update_version(version):
+    package = requests.get('https://github.com/Rhythmicc/CUP_EXAM/archive/master.zip', headers).content
+    with open(base_dir+'exam.zip', 'wb') as f:
+        f.write(package)
+    os.system('unzip '+base_dir+'exam.zip')
 
 
 if __name__ == '__main__':
-    print(new_note_check())
-    print(base_dir)
+    update_version('2.3')
