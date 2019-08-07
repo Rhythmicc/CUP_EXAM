@@ -37,7 +37,13 @@ python3 frontend.py
 
 ## Computational results:  
 
-### New version 2.3
+### New version 2.4
+
+- Update: Now you don't need update program by download ZIP manually.
+
+  ![10.png](./img/10.png)
+
+### Old version 2.3
 
 - Update: add install.sh and start.sh to easy start.
 

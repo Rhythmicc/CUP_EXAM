@@ -206,6 +206,7 @@ def update_version():
     root_dir = dir_char.join(base_dir.split(dir_char)[:-2]) + dir_char
     os.system('unzip '+base_dir+'exam.zip -d '+root_dir)
     os.system('python3 '+root_dir+'CUP_EXAM-master/setup.py --clean')
+    os.system('rm exam.zip')
 
 
 if __name__ == '__main__':

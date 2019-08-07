@@ -2,14 +2,19 @@ import sys
 import os
 
 
-if os.path.exists('~/.bashrc'):
-    with open('~/.bashrc', 'r') as f:
+def remove_command():
+    os.system('cat ~/.bashrc > tmp')
+    with open('tmp', 'r') as f:
         content = f.readlines()
-    with open('~/.bashrc', 'w') as f:
+    with open('tmp', 'w') as f:
         for line in content:
             if line.split()[-1].startswith('exam='):
                 continue
-            f.write(line+'\n')
+            f.write(line + '\n')
+    os.system('cat tmp > ~/.bashrc')
+    os.system('rm tmp')
+
+
 system = sys.platform
 base_dir = sys.path[0]
 flag = False
@@ -25,6 +30,7 @@ if system.startswith('win'):
         os.system('del "%sstart.sh"' % base_dir)
     exit(0)
 else:
+    remove_command()
     base_dir += '/'
     os.system('"%sinstall.sh"' % base_dir)
 if flag:
