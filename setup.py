@@ -28,7 +28,7 @@ if system.startswith('win'):
     if sys.argv[1] != '--direct':
         os.system('%s"install(win).bat"' % base_dir)
     else:
-        os.system('rm %sinstall.sh' % base_dir)
+        os.system('rm %sstart.sh' % base_dir)
 else:
     remove_command()
     base_dir += '/'
