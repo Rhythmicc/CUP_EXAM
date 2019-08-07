@@ -27,14 +27,18 @@ if system.startswith('win'):
     base_dir += '\\'
     if sys.argv[1] != '--direct':
         os.system('%s"install(win).bat"' % base_dir)
+    else:
+        os.system('rm %sinstall.sh' % base_dir)
 else:
     remove_command()
     base_dir += '/'
-    os.system('"%sinstall.sh"' % base_dir)
+    if sys.argv[1] != '--direct':
+        os.system('"%sinstall.sh"' % base_dir)
+    else:
+        os.system('rm %sexam.bat' % base_dir)
 if flag:
     os.system('rm "%sinstall(win).bat"' % base_dir)
     os.system('rm "%sinstall.sh"' % base_dir)
-    os.system('rm "%sexam.bat"' % base_dir)
     os.system('rm -rf %simg/' % base_dir)
     os.system('rm %sREADME.md' % base_dir)
     os.system('rm %s.last_title.txt' % base_dir)
