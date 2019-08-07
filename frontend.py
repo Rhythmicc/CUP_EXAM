@@ -75,7 +75,9 @@ if not backend.pre_check():
     flag = True
 res = backend.new_note_check()
 if res == -1:
-    showerror('检测更新失败', '设备未联网'+('且无可用考试安排文件，程序自动退出。' if flag else ''))
+    showerror('检测文件更新失败', '设备未联网'+('且无可用考试安排文件，程序自动退出。' if flag else ''))
+    if flag:
+        exit('No Network')
 elif res:
     if res[-1]:
         if flag:
@@ -94,4 +96,10 @@ elif res:
         showinfo('自动更新', '发现考试安排变更，已自动更新。')
 else:
     backend.init()
+res = backend.new_version()
+if res:
+    ask = askyesno('发现新版本', '更新内容：\n    %s\n是否更新' % res[1])
+    if ask:
+        backend.update_version()
+
 win.mainloop()

@@ -199,12 +199,14 @@ def new_version():
         return [version, content]
 
 
-def update_version(version):
+def update_version():
     package = requests.get('https://github.com/Rhythmicc/CUP_EXAM/archive/master.zip', headers).content
     with open(base_dir+'exam.zip', 'wb') as f:
         f.write(package)
-    os.system('unzip '+base_dir+'exam.zip')
+    root_dir = dir_char.join(base_dir.split(dir_char)[:-2])
+    os.system('unzip '+base_dir+'exam.zip -d '+root_dir)
+    os.system('python3 '+root_dir+'CUP_EXAM-master/setup.py')
 
 
 if __name__ == '__main__':
-    update_version('2.3')
+    update_version()

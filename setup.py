@@ -1,6 +1,15 @@
 import sys
 import os
 
+
+if os.path.exists('~/.bashrc'):
+    with open('~/.bashrc', 'r') as f:
+        content = f.readlines()
+    with open('~/.bashrc', 'w') as f:
+        for line in content:
+            if line.split()[-1].startswith('exam='):
+                continue
+            f.write(line+'\n')
 system = sys.platform
 base_dir = sys.path[0]
 flag = False
