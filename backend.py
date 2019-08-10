@@ -225,5 +225,4 @@ def update_version():
 
 
 if __name__ == '__main__':
-    print(base_dir)
-    print(pre_check())
+    update_version()
