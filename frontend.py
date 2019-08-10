@@ -13,6 +13,7 @@ ss = '帮助:\n' \
      '    []内容可缺省且顺序可变, 但至少输入一个条件。\n'
 
 flag = False
+cls_flag = True
 
 
 def deal():
@@ -47,10 +48,10 @@ def update(url=None, realurl=None):
 
 
 def clear_input(event):
-    global flag
-    if flag:
+    global cls_flag
+    if cls_flag:
         ipt.delete(0, END)
-        flag = False
+        cls_flag = False
     elif event.char == '\r' or event.char == '\n':
         deal()
 
