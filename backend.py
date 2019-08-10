@@ -190,6 +190,8 @@ def new_note_check():
 
 def new_version():
     html = get_one_page('https://github.com/Rhythmicc/CUP_EXAM', headers)
+    if not html:
+        return None
     version, content = re.findall('New version (.*?)</h3>.*?<p>(.*?)</p>', html, re.S)[0]
     with open(base_dir+'.version', 'r') as f:
         this_ver = f.read().strip()
@@ -223,4 +225,5 @@ def update_version():
 
 
 if __name__ == '__main__':
-    update_version()
+    print(base_dir)
+    print(pre_check())
