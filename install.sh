@@ -1,5 +1,4 @@
-# shellcheck disable=SC2046
-basedir=$(cd $(dirname "$0") || exit; pwd -P)
+basedir=$(cd "$(dirname "$0")" || exit; pwd -P)
 chmod a+x "$basedir"/frontend.py
 chmod 777 "$basedir"/start.sh
 file="$HOME/.bashrc"
