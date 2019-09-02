@@ -17,6 +17,14 @@ def remove_command():
     os.remove('%stmp' % base_dir)
 
 
+def remove(path):
+    if os.path.exists(path):
+        if os.path.isdir(path):
+            os.removedirs(path)
+        else:
+            os.remove(path)
+
+
 system = sys.platform
 base_dir = sys.path[0]
 if system.startswith('win'):
@@ -33,20 +41,19 @@ if system.startswith('win'):
     if sys.argv[1] != '--direct':
         os.system('setx /m PATH %%PATH%%;%s;' % base_dir)
     else:
-        base_dir += dir_char
-        os.remove(base_dir + 'exam.sh')
+        remove(base_dir + 'exam.sh')
 else:
     remove_command()
     if sys.argv[1] != '--direct':
         os.system('echo alias exam="%sexam.sh"' % base_dir)
         os.system('chmod 777 %sexam.sh' % base_dir)
     else:
-        os.remove(base_dir + 'exam.bat')
+        remove(base_dir + 'exam.bat')
 if flag:
-    os.remove('%sinstall(win).bat' % base_dir)
-    os.remove('%sinstall.sh' % base_dir)
-    os.removedirs('%simg/' % base_dir)
-    os.remove('%sREADME.md' % base_dir)
-    os.remove('%s.last_title.txt' % base_dir)
-    os.remove('%scontent.xls' % base_dir)
-    os.removedirs('%s.idea/' % base_dir)
+    remove('%sinstall(win).bat' % base_dir)
+    remove('%sinstall.sh' % base_dir)
+    remove('%simg/' % base_dir)
+    remove('%sREADME.md' % base_dir)
+    remove('%s.last_title.txt' % base_dir)
+    remove('%scontent.xls' % base_dir)
+    remove('%s.idea/' % base_dir)
