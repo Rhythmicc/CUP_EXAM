@@ -45,7 +45,7 @@ if system.startswith('win'):
 else:
     if sys.argv[1] != '--direct':
         remove_command()
-        os.system('echo alias exam="%sexam.sh"' % base_dir)
+        os.system('echo alias exam="%sexam.sh" >> ~/.bashrc' % base_dir)
         os.system('chmod 777 %sexam.sh' % base_dir)
         os.system('source ~/.bashrc')
     else:
