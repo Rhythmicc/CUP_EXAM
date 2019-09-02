@@ -3,15 +3,18 @@ import os
 
 
 def remove_command():
-    with open('~/.bashrc', 'r') as f:
+    os.system('cat ~/.bashrc > %stmp' % base_dir)
+    with open(base_dir + 'tmp', 'r') as f:
         content = f.readlines()
-    with open('~/.bashrc', 'w') as f:
+    with open(base_dir + 'tmp', 'w') as f:
         for line in content:
             if not line.strip():
                 continue
             if line.split()[-1].startswith('exam='):
                 continue
             f.write(line + '\n')
+    os.system('cat %stmp > ~/.bashrc' % base_dir)
+    os.remove('%stmp' % base_dir)
 
 
 system = sys.platform
@@ -36,6 +39,7 @@ else:
     remove_command()
     if sys.argv[1] != '--direct':
         os.system('echo alias exam="%sexam.sh"' % base_dir)
+        os.system('chmod 777 %sexam.sh' % base_dir)
     else:
         os.remove(base_dir + 'exam.bat')
 if flag:
