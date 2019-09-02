@@ -50,8 +50,6 @@ else:
     else:
         remove(base_dir + 'exam.bat')
 if flag:
-    remove('%sinstall(win).bat' % base_dir)
-    remove('%sinstall.sh' % base_dir)
     remove('%simg/' % base_dir)
     remove('%sREADME.md' % base_dir)
     remove('%s.last_title.txt' % base_dir)
