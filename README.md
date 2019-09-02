@@ -35,7 +35,11 @@ python3 frontend.py
 
 ## 运行结果:  
 
-### New version 2.4.1
+### New version 2.4.2
+
+- 简化安装。
+
+### Old version 2.4.1
 
 - 更新：上线自动版本更新功能。
 
