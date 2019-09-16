@@ -10,6 +10,9 @@ pip3 install requests
 pip3 install xlrd
 ```
 
+## 下载
+  - [点击下载](https://github.com/Rhythmicc/CUP_EXAM/archive/master.zip)
+
 ## 用法:
 ```shell
 python3 frontend.py
