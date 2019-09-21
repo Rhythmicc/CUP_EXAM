@@ -55,5 +55,5 @@ if flag:
     remove('%simg' % base_dir)
     remove('%sREADME.md' % base_dir)
     remove('%s.last_title.txt' % base_dir)
-    remove('%scontent.xls' % base_dir)
     remove('%s.idea' % base_dir)
+remove('%scontent.xls' % base_dir)
