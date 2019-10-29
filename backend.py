@@ -226,7 +226,7 @@ def new_version():
     html = get_one_page('https://github.com/Rhythmicc/CUP_EXAM', headers)
     if not html:
         return None
-    version, content = re.findall('New version (.*?)</h3>.*?<p>(.*?)</p>', html, re.S)[0]
+    version, content = re.findall('New version (.*?)</h3>.*?<li>(.*?)</li>', html, re.S)[0]
     with open(base_dir + '.version', 'r') as file:
         this_ver = file.read().strip()
     if this_ver == version:
