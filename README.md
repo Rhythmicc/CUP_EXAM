@@ -42,7 +42,11 @@ python3 frontend.py
 
 ## 运行结果:  
 
-### New version 2.4.2
+### New version 2.5
+
+- 支持匹配更多的考试安排文件类型, 并输出合适的信息
+
+### Old version 2.4.2
 
 - 简化安装。
 
