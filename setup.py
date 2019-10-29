@@ -57,3 +57,4 @@ if flag:
     remove('%s.last_title.txt' % base_dir)
     remove('%s.idea' % base_dir)
 remove('%scontent.xls' % base_dir)
+remove('%scontent.xlsx' % base_dir)
