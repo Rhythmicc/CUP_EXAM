@@ -21,8 +21,11 @@ name_col = 0
 teacher_col = 0
 sc_col = 0
 sheet = None
-with open(base_dir + '.last_title.txt', 'r') as f:
-    is_xls = f.readlines()[-1].strip().endswith('xls')
+try:
+    with open(base_dir + '.last_title.txt', 'r') as f:
+        is_xls = f.readlines()[-1].strip().endswith('xls')
+except:
+    is_xls = False
 real_file = base_dir + ('content.xls' if is_xls else 'content.xlsx')
 title_bar = None
 
@@ -193,10 +196,13 @@ def pre_check():
 
 
 def new_note_check():
-    with open(base_dir + '.last_title.txt', 'r') as file:
-        lines = file.readlines()
-        title = lines[0].strip()
-        filename = lines[1].strip()
+    try:
+        with open(base_dir + '.last_title.txt', 'r') as file:
+            lines = file.readlines()
+            title = lines[0].strip()
+            filename = lines[1].strip()
+    except:
+        title = filename = '****'
     html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/index.htm', headers)
     if not html:
         return -1
@@ -220,7 +226,7 @@ def new_version():
     html = get_one_page('https://github.com/Rhythmicc/CUP_EXAM', headers)
     if not html:
         return None
-    version, content = re.findall('New version (.*?)</h3>.*?<li>(.*?)</li>', html, re.S)[0]
+    version, content = re.findall('New version (.*?)</h3>.*?<p>(.*?)</p>', html, re.S)[0]
     with open(base_dir + '.version', 'r') as file:
         this_ver = file.read().strip()
     if this_ver == version:
