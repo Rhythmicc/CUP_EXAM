@@ -42,7 +42,11 @@ python3 frontend.py
 
 ## 运行结果:  
 
-### New version 2.5
+### New version 2.6
+
+- 支持新版教务处，修复考试安排更新问题
+
+### Old version 2.5
 
 - 支持匹配更多的考试安排文件类型, 并输出合适的信息
 

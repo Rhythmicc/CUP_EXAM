@@ -55,7 +55,7 @@ def getNewXls(url):
     if not html:
         return False
     title = re.findall('<h3>(.*?)</h3>', html, re.S)[0]
-    als = re.findall('<a.*?href="(.*?)">.*?>(.*?)<', html, re.S)
+    als = re.findall('<a.*?href="(.*?)">(.*?)<', html, re.S)
     res = None
     global is_xls
     for a in als:
@@ -68,12 +68,13 @@ def getNewXls(url):
             break
     if not res:
         return False
+    print(res)
     content = requests.get(url, headers).content
     with open(real_file, 'wb') as file:
         file.write(content)
     with open(base_dir + '.last_title.txt', 'w') as file:
         file.write(title + '\n')
-        file.write(res[1] + '\n')
+        file.write(res[0] + '\n')
     return True
 
 
@@ -203,7 +204,7 @@ def new_note_check():
             filename = lines[1].strip()
     except:
         title = filename = '****'
-    html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/index.htm', headers)
+    html = get_one_page('http://cup.edu.cn/jwc/jxjs/Ttrends/index.htm', headers)
     if not html:
         return -1
     ls = re.findall('<li>(.*?)</li>', html, re.S)
@@ -211,15 +212,16 @@ def new_note_check():
         content = re.findall('<a.*?href="(.*?)">(.*?)</a>', i, re.S)
         if content:
             addr, new_title = content[0]
+            new_title = new_title.strip()
             if new_title == title:
-                html = get_one_page('http://www.cup.edu.cn/jwc/Ttrends/' + addr, headers)
+                html = get_one_page('http://www.cup.edu.cn/jwc/jxjs/Ttrends/' + addr, headers)
                 aim_li = re.findall('<li.*?>(.*?)</li>', html, re.S)[-1]
-                new_filename = re.findall('<font.*?>(.*?)</font>', aim_li, re.S)[0]
+                new_filename = re.findall('<a href="(.*?)".*?>', aim_li, re.S)[0]
                 if new_filename != filename:
-                    return ['http://www.cup.edu.cn/jwc/Ttrends/' + addr, new_filename, 0]
+                    return ['http://www.cup.edu.cn/jwc/jxjs/Ttrends/' + addr, new_filename, 0]
                 return 0
             if new_title.endswith('考试安排'):
-                return ['http://www.cup.edu.cn/jwc/Ttrends/' + addr, new_title, 1]
+                return ['http://www.cup.edu.cn/jwc/jxjs/Ttrends/' + addr, new_title, 1]
 
 
 def new_version():
