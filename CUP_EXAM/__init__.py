@@ -1,0 +1,1 @@
+name = 'CUP_EXAM'

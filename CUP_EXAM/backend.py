@@ -5,6 +5,7 @@ import os
 import sys
 import xlrd
 from xlrd import xldate_as_tuple
+__VERSION__ = '2.6'
 
 base_dir = sys.path[0]
 if sys.platform.startswith('win'):
@@ -22,7 +23,7 @@ teacher_col = 0
 sc_col = 0
 sheet = None
 try:
-    with open(base_dir + '.last_title.txt', 'r') as f:
+    with open(base_dir + '.last_title', 'r') as f:
         is_xls = f.readlines()[-1].strip().endswith('xls')
 except:
     is_xls = False
@@ -68,11 +69,10 @@ def getNewXls(url):
             break
     if not res:
         return False
-    print(res)
     content = requests.get(url, headers).content
     with open(real_file, 'wb') as file:
         file.write(content)
-    with open(base_dir + '.last_title.txt', 'w') as file:
+    with open(base_dir + '.last_title', 'w') as file:
         file.write(title + '\n')
         file.write(res[0] + '\n')
     return True
@@ -198,7 +198,7 @@ def pre_check():
 
 def new_note_check():
     try:
-        with open(base_dir + '.last_title.txt', 'r') as file:
+        with open(base_dir + '.last_title', 'r') as file:
             lines = file.readlines()
             title = lines[0].strip()
             filename = lines[1].strip()
@@ -229,8 +229,7 @@ def new_version():
     if not html:
         return None
     version, content = re.findall('New version (.*?)</h3>.*?<li>(.*?)</li>', html, re.S)[0]
-    with open(base_dir + '.version', 'r') as file:
-        this_ver = file.read().strip()
+    this_ver = __VERSION__
     if this_ver == version:
         return None
     else:
@@ -238,26 +237,7 @@ def new_version():
 
 
 def update_version():
-    package = requests.get('https://github.com/Rhythmicc/CUP_EXAM/archive/master.zip', headers).content
-    with open(base_dir + 'exam.zip', 'wb') as file:
-        file.write(package)
-    root_dir = dir_char.join(base_dir.split(dir_char)[:-2]) + dir_char
-    while os.system('unzip -o ' + base_dir + 'exam.zip -d ' + root_dir):
-        if dir_char == '\\':
-            package = requests.get('http://gnuwin32.sourceforge.net/downlinks/unzip.php', headers).content
-            with open('unzip.exe', 'wb') as file:
-                file.write(package)
-            os.system('unzip.exe')
-            exit('ERROR! No command "unzip", but do not worry about that, We have download it for you.')
-        else:
-            os.system('sudo apt-get install unzip')
-    status = os.system('python3 ' + root_dir + 'CUP_EXAM-master/setup.py --direct')
-    if status:
-        os.system('python ' + root_dir + 'CUP_EXAM-master/setup.py --direct')
-    if dir_char == '/':
-        os.system('rm ' + base_dir + 'exam.zip')
-    else:
-        os.system('del ' + base_dir + 'exam.zip')
+    os.system('pip install CUP_EXAM --upgrade')
 
 
 if __name__ == '__main__':

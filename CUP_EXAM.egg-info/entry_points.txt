@@ -1,0 +1,3 @@
+[console_scripts]
+exam = CUP_EXAM.frontend:main
+
