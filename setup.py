@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
-VERSION = '2.6.3'
+VERSION = '2.6.4'
 
 setup(
     name='CUP_EXAM',

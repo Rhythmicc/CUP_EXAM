@@ -98,12 +98,6 @@ def main():
             showinfo('自动更新', '发现考试安排变更，已自动更新。')
     else:
         backend.init()
-    res = backend.new_version()
-    if res:
-        ask = askyesno('发现新版本', '更新内容：\n    %s\n是否更新' % res[1])
-        if ask:
-            backend.update_version()
-            exit('Update succeed! Restart exam to use it!')
 
     win.mainloop()
 

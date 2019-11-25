@@ -223,23 +223,3 @@ def new_note_check():
                 return 0
             if new_title.endswith('考试安排'):
                 return ['http://www.cup.edu.cn/jwc/jxjs/Ttrends/' + addr, new_title, 1]
-
-
-def new_version():
-    html = get_one_page('https://github.com/Rhythmicc/CUP_EXAM', headers)
-    if not html:
-        return None
-    version, content = re.findall('New version (.*?)</h3>.*?<li>(.*?)</li>', html, re.S)[0]
-    this_ver = __VERSION__
-    if this_ver == version:
-        return None
-    else:
-        return [version, content]
-
-
-def update_version():
-    os.system('pip install CUP_EXAM --upgrade')
-
-
-if __name__ == '__main__':
-    update_version()
