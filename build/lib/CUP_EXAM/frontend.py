@@ -30,6 +30,9 @@ def deal():
     if not exp:
         return
     rres = backend.search(exp.split())
+    if not rres:
+        showinfo('暂无相关信息', '无信息，请联系老师查询')
+        return
     new_win = Toplevel()
     new_win.title('查询结果')
     txt = Text(new_win, width=100, height=30)
@@ -52,12 +55,14 @@ def update(url=None, realurl=None):
     if backend.getNewXls(url):
         if tk_flag:
             showinfo('下载成功', 'XLS考试通知文件下载成功!')
+            return
         else:
             print('XLS考试通知文件下载成功!')
         backend.init()
     else:
         if tk_flag:
             showerror('下载失败', '未能成功下载XLS文件')
+            return
         else:
             print('未能成功下载XLS文件')
 

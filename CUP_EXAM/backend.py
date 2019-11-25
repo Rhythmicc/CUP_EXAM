@@ -191,6 +191,8 @@ def search(exp):
                     except:
                         pass
                     res += title_bar[i] + ': %s\n' % v
+    if not res.strip():
+        return None
     res += '-' * 50 + '\n'
     del res_set
     return res
