@@ -4,11 +4,17 @@ from tkinter import simpledialog
 from tkinter.messagebox import *
 from CUP_EXAM import backend
 
-win = Tk()
-win.title('CUP考试安排查询')
-win.geometry("400x150")
-pre_text = Variable()
-ipt = Entry(win, width=40, textvariable=pre_text)
+try:
+    win = Tk()
+    win.title('CUP考试安排查询')
+    win.geometry("400x150")
+    pre_text = Variable()
+    ipt = Entry(win, width=40, textvariable=pre_text)
+except TclError:
+    tk_flag = False
+    print('Show UI failed! But we provide Basic UI:')
+else:
+    tk_flag = True
 
 ss = '帮助:\n' \
      '    通过使用如下固定格式的表达式进行考试信息搜索：\n' \
@@ -44,10 +50,16 @@ def update(url=None, realurl=None):
     if not url:
         url = simpledialog.askstring('下载考试通知文件', '请输入考试安排通知网址')
     if backend.getNewXls(url):
-        showinfo('下载成功', 'XLS考试通知文件下载成功!')
+        if tk_flag:
+            showinfo('下载成功', 'XLS考试通知文件下载成功!')
+        else:
+            print('XLS考试通知文件下载成功!')
         backend.init()
     else:
-        showerror('下载失败', '未能成功下载XLS文件')
+        if tk_flag:
+            showerror('下载失败', '未能成功下载XLS文件')
+        else:
+            print('未能成功下载XLS文件')
 
 
 def clear_input(event):
@@ -61,45 +73,73 @@ def clear_input(event):
 
 def main():
     global flag
-    lb = Label(win, text=ss, justify='left')
-    lb.pack()
-    ipt.bind('<Key>', clear_input)
-    ipt.pack()
-    pre_text.set('输入搜索表达式:')
-    ipt.focus()
-
-    bt = Button(win, text='查询', command=deal)
-    bt.pack()
-
     if not backend.pre_check():
         with open(backend.base_dir + '.last_title', 'w') as f:
             f.write('\n\n')
         flag = True
     res = backend.new_note_check()
-    if res == -1:
-        showerror('检测文件更新失败', '设备未联网' + ('且无可用考试安排文件，程序自动退出。' if flag else ''))
-        if flag:
-            exit('No Network')
-    elif res:
-        if res[-1]:
-            if flag:
-                ask = True
-            else:
-                ask = askyesno('发现新的考试安排', '发现新的考试安排:\n    ' + res[1] + '\n\n是否更新考试安排文件?')
-            if ask:
-                if flag:
-                    update(realurl=res[0])
-                else:
-                    update(url=res[0])
-            else:
-                backend.init()
-        else:
-            update('', res[0])
-            showinfo('自动更新', '发现考试安排变更，已自动更新。')
-    else:
-        backend.init()
+    if tk_flag:
+        lb = Label(win, text=ss, justify='left')
+        lb.pack()
+        ipt.bind('<Key>', clear_input)
+        ipt.pack()
+        pre_text.set('输入搜索表达式:')
+        ipt.focus()
 
-    win.mainloop()
+        bt = Button(win, text='查询', command=deal)
+        bt.pack()
+        if res == -1:
+            showerror('检测文件更新失败', '设备未联网' + ('且无可用考试安排文件，程序自动退出。' if flag else ''))
+            if flag:
+                exit('No Network')
+        elif res:
+            if res[-1]:
+                if flag:
+                    ask = True
+                else:
+                    ask = askyesno('发现新的考试安排', '发现新的考试安排:\n    ' + res[1] + '\n\n是否更新考试安排文件?')
+                if ask:
+                    if flag:
+                        update(realurl=res[0])
+                    else:
+                        update(url=res[0])
+                else:
+                    backend.init()
+            else:
+                update('', res[0])
+                showinfo('自动更新', '发现考试安排变更，已自动更新。')
+        else:
+            backend.init()
+        win.mainloop()
+    else:
+        if res == -1:
+            print('检测文件更新失败', '设备未联网' + ('且无可用考试安排文件，程序自动退出。' if flag else ''))
+            if flag:
+                exit('No Network')
+        elif res:
+            if res[-1]:
+                if flag:
+                    ask = True
+                else:
+                    ask = input('发现新的考试安排:\n    ' + res[1] + '\n\n是否更新考试安排文件?[y/n]:')
+                if ask or ask in 'yY':
+                    if flag:
+                        update(realurl=res[0])
+                    else:
+                        update(url=res[0])
+                else:
+                    backend.init()
+            else:
+                update('', res[0])
+                print('发现考试安排变更，已自动更新。')
+        else:
+            backend.init()
+        while True:
+            target = input('输入查询信息: ')
+            if target:
+                print(backend.search(target))
+            else:
+                break
 
 
 if __name__ == '__main__':

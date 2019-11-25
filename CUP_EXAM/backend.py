@@ -183,12 +183,15 @@ def search(exp):
             for i, v in enumerate(line):
                 if not title_bar[i].strip():
                     continue
+                if '号' in title_bar[i] or '人数' in title_bar[i]:
+                    continue
                 if i != name_col and i != teacher_col and i != sc_col:
                     try:
                         v = v.strip()
                     except:
                         pass
                     res += title_bar[i] + ': %s\n' % v
+    res += '-' * 50 + '\n'
     del res_set
     return res
 
