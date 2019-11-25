@@ -25,7 +25,7 @@
 
 - 更新：上线自动版本更新功能。
 
-  ![10.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/10.png)
+  ![10.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/10.png?raw=true)
 
 - 问题:
 
@@ -41,28 +41,28 @@
 
 - Update: add install.sh and start.sh to easy start.
 
-  ![9.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/9.png)
+  ![9.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/9.png?raw=true)
 
 ### Old version 2.2
 - Update: Simplify search expressions and remove the dependency on the fuzzywuzzy library.   
-  ![8.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/8.png) 
+  ![8.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/8.png?raw=true) 
 
 ### Old version 2.1
 - Update: The program automatically maintains test scheduling files.  
-  ![7.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/7.png)  
+  ![7.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/7.png?raw=true)  
 
 ### Old version 2.0  
 - new feature  
-  ![5.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/5.png)  
-  ![6.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/6.png)  
+  ![5.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/5.png?raw=true)  
+  ![6.png](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/6.png?raw=true)  
 
 
 
 - simple example  
-  ![simple example](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/4.png)  
+  ![simple example](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/4.png?raw=true)  
 
 ### Old version 1.0  
-![1.jpg](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/1.jpg)  
+![1.jpg](https://github.com/Rhythmicc/CUP_EXAM/blob/master/img/1.jpg?raw=true)  
 
 - By the way, if the **content.xls** is existed, the program will not ask for a url. 
 
