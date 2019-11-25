@@ -10,6 +10,7 @@ __VERSION__ = '2.6'
 base_dir = sys.path[0]
 if sys.platform.startswith('win'):
     dir_char = '\\'
+    base_dir = dir_char.join(base_dir.split(dir_char)[:-1])
 else:
     dir_char = '/'
 base_dir += dir_char
