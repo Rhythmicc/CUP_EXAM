@@ -52,11 +52,11 @@ def countPoint(UrlPart):
     return cnt
 
 
-def getNewXls(url):
-    html = get_one_page(url, Headers=headers)
+def getNewXls(api):
+    html = get_one_page(api[0], Headers=headers)
     if not html:
         return False
-    title = re.findall('<h3>(.*?)</h3>', html, re.S)[0]
+    title = api[1]
     als = re.findall('<a.*?href="(.*?)">(.*?)<', html, re.S)
     res = None
     global is_xls
@@ -65,12 +65,12 @@ def getNewXls(url):
         if is_xls or a[0].endswith('xlsx'):
             is_xls = a[0].endswith('xls')
             cnt = countPoint(a[0])
-            url = '/'.join(url.split('/')[:-cnt]) + a[0][cnt:]
+            api = '/'.join(api[0].split('/')[:-cnt]) + a[0][cnt:]
             res = a
             break
     if not res:
         return False
-    content = requests.get(url, headers).content
+    content = requests.get(api, headers).content
     with open(real_file, 'wb') as file:
         file.write(content)
     with open(base_dir + '.last_title', 'w') as file:
@@ -82,6 +82,7 @@ def getNewXls(url):
 def init():
     xls = xlrd.open_workbook(real_file)
     global name_col, teacher_col, sc_col, sheet, data, title_bar
+    data.clear()
     sheet = xls.sheet_by_index(0)
     start_pos = 0
     while start_pos < 5:

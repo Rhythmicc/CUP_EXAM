@@ -1,25 +1,21 @@
 #!/usr/bin/env python3
 from tkinter import *
-from tkinter import simpledialog
 from tkinter.messagebox import *
 from CUP_EXAM import backend
 
 try:
     win = Tk()
     win.title('CUP考试安排查询')
-    win.geometry("400x150")
+    win.geometry("400x130")
     pre_text = Variable()
-    ipt = Entry(win, width=40, textvariable=pre_text)
+    ipt = Entry(win, width=37, textvariable=pre_text)
 except TclError:
     tk_flag = False
     print('Show UI failed! But we provide Basic UI:')
 else:
     tk_flag = True
 
-ss = '帮助:\n' \
-     '    通过使用如下固定格式的表达式进行考试信息搜索：\n' \
-     '          [课程] [教师] [班级]\n' \
-     '    []内容可缺省且顺序可变, 但至少输入一个条件。\n'
+ts = '\n当前考试安排:\n      %s\n'
 
 flag = False
 cls_flag = True
@@ -42,6 +38,7 @@ def deal():
     srco.config(command=txt.yview)
     txt.config(yscrollcommand=srco.set)
     txt.insert(INSERT, rres)
+    txt.config(state=DISABLED)
     new_win.mainloop()
 
 
@@ -51,18 +48,16 @@ def update(url=None, realurl=None):
         backend.init()
         return
     if not url:
-        url = simpledialog.askstring('下载考试通知文件', '请输入考试安排通知网址')
+        return
     if backend.getNewXls(url):
         if tk_flag:
             showinfo('下载成功', 'XLS考试通知文件下载成功!')
-            return
         else:
             print('XLS考试通知文件下载成功!')
         backend.init()
     else:
         if tk_flag:
             showerror('下载失败', '未能成功下载XLS文件')
-            return
         else:
             print('未能成功下载XLS文件')
 
@@ -77,18 +72,22 @@ def clear_input(event):
 
 
 def main():
-    global flag
+    global flag, ss
     if not backend.pre_check():
         with open(backend.base_dir + '.last_title', 'w') as f:
             f.write('\n\n')
+            ss = ts % 'NONE'
         flag = True
+    else:
+        with open(backend.base_dir + '.last_title', 'r') as f:
+            ss = ts % (f.read().split()[0])
     res = backend.new_note_check()
     if tk_flag:
         lb = Label(win, text=ss, justify='left')
         lb.pack()
         ipt.bind('<Key>', clear_input)
         ipt.pack()
-        pre_text.set('输入搜索表达式:')
+        pre_text.set('搜索课程名称、教师名或班级(多个条件用空格分隔):')
         ipt.focus()
 
         bt = Button(win, text='查询', command=deal)
@@ -105,13 +104,12 @@ def main():
                     ask = askyesno('发现新的考试安排', '发现新的考试安排:\n    ' + res[1] + '\n\n是否更新考试安排文件?')
                 if ask:
                     if flag:
-                        update(realurl=res[0])
+                        update(realurl=res)
                     else:
-                        update(url=res[0])
-                else:
-                    backend.init()
+                        update(url=res)
+                    lb.config(text=ts % res[1])
             else:
-                update('', res[0])
+                update(realurl=res)
                 showinfo('自动更新', '发现考试安排变更，已自动更新。')
         else:
             backend.init()
@@ -129,13 +127,11 @@ def main():
                     ask = input('发现新的考试安排:\n    ' + res[1] + '\n\n是否更新考试安排文件?[y/n]:')
                 if ask or ask in 'yY':
                     if flag:
-                        update(realurl=res[0])
+                        update(realurl=res)
                     else:
-                        update(url=res[0])
-                else:
-                    backend.init()
+                        update(url=res)
             else:
-                update('', res[0])
+                update(realurl=res)
                 print('发现考试安排变更，已自动更新。')
         else:
             backend.init()
