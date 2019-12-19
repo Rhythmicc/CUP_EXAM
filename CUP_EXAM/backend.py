@@ -1,11 +1,13 @@
-import requests
-from requests.exceptions import RequestException
-import re
 import os
+import re
 import sys
+
+import requests
 import xlrd
+from requests.exceptions import RequestException
 from xlrd import xldate_as_tuple
-__VERSION__ = '2.6'
+
+__VERSION__ = '2.6.8'
 
 base_dir = sys.path[0]
 if sys.platform.startswith('win'):
@@ -100,18 +102,18 @@ def init():
             break
     if not name_col or not teacher_col or not sc_col:
         exit('Unknown xls layout')
-    ls = sheet.col_values(name_col)
+    ls = [i.strip() for i in sheet.col_values(name_col)]
     data = {'课程名': {}, '上课老师': {}, '主修班级': {}}
     for i in range(start_pos, len(ls)):
         if ls[i] not in data['课程名']:
             data['课程名'][ls[i]] = set()
         data['课程名'][ls[i]].add(i)
-    ls = sheet.col_values(teacher_col)
+    ls = [i.strip() for i in sheet.col_values(teacher_col)]
     for i in range(start_pos, len(ls)):
         if ls[i] not in data['上课老师']:
             data['上课老师'][ls[i]] = set()
         data['上课老师'][ls[i]].add(i)
-    ls = sheet.col_values(sc_col)
+    ls = [i.strip() for i in sheet.col_values(sc_col)]
     for i in range(start_pos, len(ls)):
         cls = ls[i].split(',')
         for cl in cls:
@@ -121,11 +123,17 @@ def init():
 
 
 def fm(string, ls):
+    import jieba
     res = []
     match = '.*?'.join([i for i in string])
+    tmp_mc = '.*?'.join(jieba.lcut(string))
     for i in ls:
-        if re.findall(match, i):
-            res.append((i, 100))
+        if string in i:
+            res.append((i, 2))
+        elif re.findall(tmp_mc, i):
+            res.append((i, 1))
+        elif re.findall(match, i):
+            res.append((i, 0))
     return res
 
 
@@ -136,6 +144,7 @@ def search(exp):
     res_set = set()
     flag = False
     exp = list(set(exp))
+    cnt = {}
     for i in range(len(exp)):
         if i < 3:
             aim = exp[i].strip()
@@ -147,8 +156,12 @@ def search(exp):
                 loop -= 1
                 res = fm(aim, data[keys[loop]].keys())
                 for mth in res:
-                    if mth[1]:
-                        ts = ts.union(data[keys[loop]][mth[0]])
+                    ts = ts.union(data[keys[loop]][mth[0]])
+                    for line_num in data[keys[loop]][mth[0]]:
+                        if line_num in cnt:
+                            cnt[line_num] = max(cnt[line_num], mth[1])
+                        else:
+                            cnt[line_num] = mth[1]
             if flag:
                 res_set = res_set.intersection(ts)
             else:
@@ -157,6 +170,7 @@ def search(exp):
         else:
             break
     res = ''
+    res_set = sorted(list(res_set), key=lambda x: -cnt[x])
     for line_num in res_set:
         line = sheet.row_values(line_num)
         res += '-' * 50 + '\n'

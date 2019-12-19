@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
-VERSION = '2.6.7'
+VERSION = '2.6.8'
 
 setup(
     name='CUP_EXAM',
@@ -23,7 +23,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=True,
-    install_requires=['xlrd', 'requests'],
+    install_requires=['xlrd', 'requests', 'jieba'],
     entry_points={
         'console_scripts': [
             'exam = CUP_EXAM.frontend:main'
