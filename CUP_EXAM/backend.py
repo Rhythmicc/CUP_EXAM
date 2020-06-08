@@ -241,5 +241,5 @@ def new_note_check():
                 if new_filename != filename:
                     return ['http://www.cup.edu.cn/jwc/jxjs/Ttrends/' + addr, new_filename, 0]
                 return 0
-            if new_title.endswith('考试安排'):
+            if new_title.endswith('考试安排') and '补考' not in new_title:
                 return ['http://www.cup.edu.cn/jwc/jxjs/Ttrends/' + addr, new_title, 1]
