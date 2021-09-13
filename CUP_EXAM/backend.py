@@ -100,7 +100,7 @@ def init():
         if name_col and teacher_col and sc_col:
             title_bar = keys
             break
-    if not name_col or not teacher_col or not sc_col:
+    if not name_col and not teacher_col and not sc_col:
         exit('Unknown xls layout')
     ls = [i.strip() for i in sheet.col_values(name_col)]
     data = {'课程名': {}, '上课老师': {}, '主修班级': {}}
@@ -115,8 +115,7 @@ def init():
         data['上课老师'][ls[i]].add(i)
     ls = [i.strip() for i in sheet.col_values(sc_col)]
     for i in range(start_pos, len(ls)):
-        cls = ls[i].split(',')
-        for cl in cls:
+        for cl in ls[i].split(','):
             if cl not in data['主修班级']:
                 data['主修班级'][cl] = set()
             data['主修班级'][cl].add(i)
